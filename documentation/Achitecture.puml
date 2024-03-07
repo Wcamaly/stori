@@ -1,0 +1,76 @@
+@startuml
+package "Stori Solution" {
+
+  frame WEB
+  rectangle "Lambda Listens to S3 Uploads" as LBD_S3
+
+  rectangle "Lambda for Email via SES" as LBD_SES
+
+
+  hexagon "Event Queue SNS/SQS" as EQ_SQS
+
+  package server {
+    rectangle "Transaction Service" as TS
+    rectangle "User Service" as US
+    rectangle "API Gateway" as AG
+    rectangle "Backend for Frontend (BFF)" as BFF
+    database "DynamoDB" as DB
+
+    note left of (AG)
+      API Gateway is the only 
+      entry point to the application 
+      from the outside
+    end note
+
+    note left of (BFF)
+      Backend for Frontend to 
+      render the web, it will assemble 
+      composite responses 
+    end note
+
+    note left of (TS)
+      Service that stores 
+      transactions by 
+      user in a database 
+    end note
+
+    note left of (US)
+      Service that stores 
+      users and their information
+    end note
+  }
+
+  note right of (EQ_SQS)
+    Event queue for processing 
+    emitted events
+  end note
+
+  note right of (LBD_S3)
+    Processes files uploaded to S3. 
+    The queue will notify when a new file is uploaded. 
+    It creates new records, and upon completion, 
+    emits a completion event with necessary information 
+    for email sending.
+  end note
+
+  note right of (LBD_SES)
+    Executes upon triggering an email send event. 
+    It composes the corresponding email, 
+    for this instance, the email is composed within 
+    the lambda and it retrieves information from  
+    the Transaction Service to simplify the solution.
+  end note
+
+  WEB --> AG
+  AG --> BFF
+  BFF --> US
+  BFF --> TS
+  LBD_S3 --> TS
+  TS --> DB
+  US --> DB
+  TS --> US
+  LBD_S3 --> EQ_SQS
+  EQ_SQS --> LBD_SES
+
+}
+@enduml

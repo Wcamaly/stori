@@ -1,0 +1,16 @@
+version: "3"
+services:
+  localstack:
+    container_name: localstack_stori_solution
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566" # Puerto general de LocalStack para todos los servicios simulados
+      - "4571:4571" # Puerto antiguo, mantenido aquí por compatibilidad, pero todo se redirige al 4566 en versiones recientes
+    environment:
+      - SERVICES=lambda,s3,ses,sns,sqs,dynamodb
+      - DEFAULT_REGION=us-east-1
+      - DEBUG=1 # Activar esto para depuración, si es necesario
+      #- DATA_DIR=/tmp/localstack/data # Para persistencia, si se requiere 
+    volumes:
+      #- "./localstack:/tmp/localstack" # Mapear este volumen si necesitas persistencia
+      - "/var/run/docker.sock:/var/run/docker.sock" # LocalStack utiliza el socket de Docker para algunas operaciones, como invocar Lambdas en contenedores
