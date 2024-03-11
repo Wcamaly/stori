@@ -2,34 +2,35 @@ package user
 
 import (
 	"context"
+	"stori/user-service/pkg/domain/models"
 	"stori/user-service/pkg/domain/user"
 )
 
-type GetUserByEmailRequest struct {
-	Email string `json:"email"`
+type GetUserRequestById struct {
+	ID string `json:"id"`
 }
 
-type GetUserDtoResponse struct {
+type GetUserByIdDtoResponse struct {
 	ID        string `json:"id"`
 	Email     string `json:"email"`
 	FirstName string `json:"firstName"`
 	SurName   string `json:"surname"`
 }
 
-type GetUserByEmail struct {
+type GetUserById struct {
 	repository user.UserRepository
 }
 
-func NewGetUserByEmail(
+func NewGetUserById(
 	repository user.UserRepository,
-) *GetUserByEmail {
-	return &GetUserByEmail{
+) *GetUserById {
+	return &GetUserById{
 		repository: repository,
 	}
 }
 
-func (g *GetUserByEmail) Exec(ctx context.Context, payload *GetUserByEmailRequest) (*GetUserDtoResponse, error) {
-	user, err := g.repository.FindByEmail(ctx, payload.Email)
+func (g *GetUserById) Exec(ctx context.Context, payload *GetUserRequestById) (*GetUserDtoResponse, error) {
+	user, err := g.repository.FindById(ctx, models.ID(payload.ID))
 	if err != nil {
 		return nil, err
 	}

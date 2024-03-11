@@ -8,7 +8,8 @@ import (
 )
 
 func HandlerCreateUser(dep *config.Dependencies) http.HandlerFunc {
-	service := user.NewCreateContract(dep.UserRepository)
+
+	createUser := user.NewCreateUser(dep.UserRepository)
 	return func(w http.ResponseWriter, r *http.Request) {
 		var cmd user.CreateUserDto
 		if err := json.NewDecoder(r.Body).Decode(&cmd); err != nil {
@@ -16,7 +17,7 @@ func HandlerCreateUser(dep *config.Dependencies) http.HandlerFunc {
 			return
 		}
 
-		res, err := service.Exec(r.Context(), &cmd)
+		res, err := createUser.Exec(r.Context(), &cmd)
 
 		if err != nil {
 			config.WriteErr(r.Context(), w, err)
