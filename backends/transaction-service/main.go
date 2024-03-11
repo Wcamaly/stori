@@ -4,15 +4,14 @@ import (
 	"context"
 	"os"
 	"os/signal"
-	"stori/transaction/cmd/config"
-	"stori/transaction/cmd/server"
-	"stori/transaction/pkg/config/logs"
+	"stori/transaction-service/cmd/config"
+	"stori/transaction-service/cmd/server"
+	"stori/transaction-service/pkg/config/logs"
 	"syscall"
 )
 
 func main() {
 	println("[Config] Loading")
-
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		panic(err)

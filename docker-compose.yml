@@ -1,5 +1,28 @@
 version: "3"
 services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    deploy:
+      endpoint_mode: dnsrr
+    networks:
+      stori-internal:
+        aliases:
+          - dbpostgres
+      stori-external:
+        aliases:
+          - dbpostgres
+  
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: rootPassword
+      POSTGRES_USER: root
+
   localstack:
     container_name: localstack_stori_solution
     image: localstack/localstack:latest
@@ -7,10 +30,19 @@ services:
       - "4566:4566" # Puerto general de LocalStack para todos los servicios simulados
       - "4571:4571" # Puerto antiguo, mantenido aquí por compatibilidad, pero todo se redirige al 4566 en versiones recientes
     environment:
-      - SERVICES=lambda,s3,ses,sns,sqs,dynamodb
+      - SERVICES=lambda,s3,ses,sns,sqs,rds
       - DEFAULT_REGION=us-east-1
       - DEBUG=1 # Activar esto para depuración, si es necesario
       #- DATA_DIR=/tmp/localstack/data # Para persistencia, si se requiere 
     volumes:
       #- "./localstack:/tmp/localstack" # Mapear este volumen si necesitas persistencia
       - "/var/run/docker.sock:/var/run/docker.sock" # LocalStack utiliza el socket de Docker para algunas operaciones, como invocar Lambdas en contenedores
+
+
+volumes:
+  postgres-data:
+  pgadmin-data:
+
+networks:
+  stori-internal: {}
+  stori-external: {}

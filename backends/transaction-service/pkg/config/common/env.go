@@ -1,6 +1,6 @@
 package config
 
-import "stori/transaction/pkg/config/errors"
+import "stori/transaction-service/pkg/config/errors"
 
 var (
 	ErrInvalidEnv = errors.Define("models.invalid_env")

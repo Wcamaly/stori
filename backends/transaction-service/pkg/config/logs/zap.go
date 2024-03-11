@@ -1,7 +1,7 @@
 package logs
 
 import (
-	config "stori/transaction/pkg/config/common"
+	config "stori/transaction-service/pkg/config/common"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

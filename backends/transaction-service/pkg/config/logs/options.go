@@ -2,7 +2,7 @@ package logs
 
 import (
 	"encoding/json"
-	"stori/transaction/pkg/config/errors"
+	"stori/transaction-service/pkg/config/errors"
 	"time"
 
 	"go.uber.org/zap"

@@ -3,8 +3,8 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-	"stori/transaction/cmd/config"
-	response "stori/transaction/pkg/config/http"
+	"stori/transaction-service/cmd/config"
+	response "stori/transaction-service/pkg/config/http"
 )
 
 // Status Health
