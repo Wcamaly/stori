@@ -14,7 +14,7 @@ package "Stori Solution" {
     rectangle "User Service" as US
     rectangle "API Gateway" as AG
     rectangle "Backend for Frontend (BFF)" as BFF
-    database "DynamoDB" as DB
+    database "Postgress" as DB
 
     note left of (AG)
       API Gateway is the only 
