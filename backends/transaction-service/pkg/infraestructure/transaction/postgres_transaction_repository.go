@@ -115,9 +115,15 @@ func (u TransactionPostgressRepository) FindBalanceByUserId(ctx context.Context,
 	if err := u.db.GetContext(
 		ctx,
 		&transactionBalancePostgres,
-		`SELECT t.user_id, sum(t.value) as balance from public.transaction as t WHERE (t.user_id = $1) GROUP BY user_id `,
+		`SELECT 
+			t.user_id, 
+			sum(t.value) as balance,
+			sum(t.value) FILTER ( WHERE t.value > 0 ) AS credit,
+    	sum(t.value) FILTER ( WHERE t.value < 0 ) AS debit
+		from public.transaction as t WHERE (t.user_id = $1) GROUP BY user_id `,
 		userId,
 	); err != nil {
+		println("err", err.Error())
 		return nil, errors.Wrap(
 			transaction.ErrorTransactionInternal,
 			err,

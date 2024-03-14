@@ -44,8 +44,8 @@ type Transaction struct {
 	createdAt time.Time
 }
 
-func NewTransactionBalance(userId models.ID, balance float64) *TransactionBalance {
-	return &TransactionBalance{userId: userId, balance: balance}
+func NewTransactionBalance(userId models.ID, balance float64, credit float64, debit float64) *TransactionBalance {
+	return &TransactionBalance{userId: userId, balance: balance, credit: credit, debit: debit}
 }
 
 func (u *TransactionBalance) UserId() models.ID {

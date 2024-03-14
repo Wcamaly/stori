@@ -26,6 +26,8 @@ type GetBalanceByUserIdDto struct {
 type GetBalanceByUserIdResponse struct {
 	UserID  string  `json:"userId"`
 	Balance float64 `json:"balance"`
+	Credit  float64 `json:"credit"`
+	Debit   float64 `json:"debit"`
 }
 
 func (tr *GetBalanceByUserId) Exec(ctx context.Context, payload *GetBalanceByUserIdDto) (*GetBalanceByUserIdResponse, error) {
@@ -34,5 +36,5 @@ func (tr *GetBalanceByUserId) Exec(ctx context.Context, payload *GetBalanceByUse
 	if err != nil {
 		return nil, errors.New("error getting balance")
 	}
-	return &GetBalanceByUserIdResponse{UserID: payload.UserId.String(), Balance: balance.Balance()}, nil
+	return &GetBalanceByUserIdResponse{UserID: payload.UserId.String(), Balance: balance.Balance(), Credit: balance.Credit(), Debit: balance.Debit()}, nil
 }

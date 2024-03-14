@@ -16,5 +16,6 @@ type TransactionBalancePostgres struct {
 
 func (p *TransactionBalancePostgres) toDomain() (*transaction.TransactionBalance, error) {
 	userID := models.ID(p.UserID)
-	return transaction.NewTransactionBalance(userID, p.Balance), nil
+
+	return transaction.NewTransactionBalance(userID, p.Balance, p.Credit, p.Debit), nil
 }

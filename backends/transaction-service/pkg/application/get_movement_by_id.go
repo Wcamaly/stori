@@ -38,6 +38,8 @@ func (tr *GetMovementByUserId) Exec(ctx context.Context, payload *GetMovementByU
 	}
 	response := make([]*GetMovementByUserIdResponse, len(movements))
 	for i, movement := range movements {
+		println("movement: ", movement.Increment(), " ", movement.Decrement(), " ", movement.Month())
+
 		response[i] = &GetMovementByUserIdResponse{
 			UserID:    payload.UserId.String(),
 			Increment: movement.Increment(),
