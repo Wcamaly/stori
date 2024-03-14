@@ -2,3 +2,6 @@
 *.hcl
 terraform.tfstate
 localstack
+lambdas/main-email.zip
+lambdas/main-transaction.zip
+.DS_Store
