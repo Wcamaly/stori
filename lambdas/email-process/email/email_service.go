@@ -25,7 +25,7 @@ func NewEmailService() *EmailService {
 func (e *EmailService) SendEmail(userData user.UserData, subject string, templateName string) error {
 
 	mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	message := []byte("Subject:" + subject + "\n" + mime + templateName)
+	message := []byte("Subject:" + subject + "\n" + "From: Stori Challenge <" + e.senderEmail + ">/n" + mime + templateName)
 
 	auth := smtp.PlainAuth("", e.senderEmail, e.password, e.smtpHost)
 	println("Auth: ", auth)
