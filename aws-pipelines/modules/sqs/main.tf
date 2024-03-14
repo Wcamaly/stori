@@ -10,8 +10,9 @@ resource "aws_lambda_event_source_mapping" "s3_to_lambda" {
   event_source_arn  = aws_sqs_queue.this.arn
   function_name     = var.lambda_arn
   enabled           = true
-}
+  batch_size = 1
 
+}
 
 resource "aws_sqs_queue_policy" "s3_to_sqs_policy" {
   queue_url = aws_sqs_queue.this.id
@@ -25,7 +26,8 @@ resource "aws_sqs_queue_policy" "s3_to_sqs_policy" {
       Resource = aws_sqs_queue.this.arn,
       Condition = {
         ArnLike = {
-          "aws:SourceArn" = "arn:aws:s3:*:*:${var.bucket_name}"
+          
+          "aws:SourceArn" = var.bucket_arn
         }
       }
     }]

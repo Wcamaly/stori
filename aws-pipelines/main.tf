@@ -78,7 +78,8 @@ module "iam_lambda_role" {
       {
         "Effect": "Allow",
         "Action": [
-          "sns:Publish"
+          "sns:Publish",
+          "sns:Subscribe",
         ],
         "Resource": "${var.sns_topic_arn}${var.sns_topic}"
       },
@@ -89,6 +90,22 @@ module "iam_lambda_role" {
         ],
         "Resource": "arn:aws:lambda:${var.region}:${var.account_id}:function:transaction"
       },
+       {
+        "Effect": "Allow",
+        "Action": [
+          "lambda:InvokeFunction"
+        ],
+        "Resource": "arn:aws:lambda:${var.region}:${var.account_id}:function:email"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource": "*"
+      }
 
     ]
   })
@@ -112,8 +129,12 @@ module "lambda_functions" {
       environment      = {
        TRANSACTION_SERVICE_URL="http://transaction-service:8080/api/v1"
         USER_SERVICE_URL="http://user-service:8080/api/v1"
-        SNS_TOPIC=var.sns_topic
+        SNS_TOPIC="${var.sns_topic_arn}${var.sns_topic}"
         AWS_REGION=var.region
+        AWS_S3_ENDPOINT="http://s3.localhost.localstack.cloud:4566"
+        AWS_ENDPOINT="http://localstack:4566"
+        AWS_SECRET="test"
+        ACCESS_KEY="test"
       }
     },
     email = {
@@ -126,6 +147,12 @@ module "lambda_functions" {
         USER_SERVICE_URL="http://user-service:8080/api/v1"
         SNS_TOPIC=var.sns_topic
         AWS_REGION=var.region
+        SMTP_HOST="smtp.gmail.com"
+        SMTP_PORT="587"
+        SENDER_EMAIL="walter.heroku@gmail.com"
+        SENDER_PASSWORD="W100lter" #TODO: change this to a secure way
+        AWS_SECRET="test"
+        ACCESS_KEY="test"
       }
     }
   }
@@ -137,6 +164,7 @@ module "sqs_queue" {
   queue_name  = var.sqs_topic
   lambda_arn = module.lambda_functions.lambda_functions_info["transaction"].arn
   bucket_name = module.s3_bucket.bucket_name
+  bucket_arn = module.s3_bucket.bucket_arn
 }
 
 
@@ -149,9 +177,9 @@ resource "aws_s3_bucket_notification" "s3_notification" {
   depends_on = [module.sqs_queue]
 }
 
-/*
 module "sns_topic" {
   source    = "./modules/sns"
   topic_name = var.sns_topic
   lambda_arn = module.lambda_functions.lambda_functions_info["email"].arn
-} */
+}
+

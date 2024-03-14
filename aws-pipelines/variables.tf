@@ -17,7 +17,7 @@ variable "sqs_topic_arn" {
 variable "sqs_topic" {
   description = "value of the sqs topic"
   type        = string
-  default = "S3_TO_SQS_QUEUE"
+  default = "S3-SQS-QUEUE"
 }
 
 variable "sns_topic_arn" {
@@ -28,7 +28,7 @@ variable "sns_topic_arn" {
 variable "sns_topic" {
   description = "value of the sns topic"
   type        = string
-  default = "EMAIL_TOPIC"
+  default = "EMAIL-TOPIC"
 }
 
 variable "bucket_name" {

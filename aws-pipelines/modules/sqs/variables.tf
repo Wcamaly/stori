@@ -36,3 +36,8 @@ variable "bucket_name" {
   description = "The bucket name listener."
   type        = string
 }
+
+variable "bucket_arn" {
+  description = "value of the bucket arn"
+  type        = string
+}
