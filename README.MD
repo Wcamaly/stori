@@ -1,6 +1,6 @@
 # CHALLENGE STORI
 
- Welcome to the [Project Name] README. This document provides an overview of the entire project, including how to set it up, run it, and the technologies it uses.
+ Welcome to the Challen Stori README. This document provides an overview of the entire project, including how to set it up, run it, and the technologies it uses.
 
 ## Technology Stack
   This project leverages a modern stack of technologies to ensure a scalable, efficient, and robust application.
@@ -14,10 +14,12 @@
 
 To run this project, you'll need to have the following tools installed:
 
-- Docker: An open platform for developing, shipping, and running applications in containers.
-- Docker-compose: A tool for defining and running multi-container Docker applications.
-- Terraform: Infrastructure as code tool for building, changing, and versioning infrastructure safely and efficiently.
-- AWS CLI: The Amazon Web Services Command Line Interface is a unified tool to manage AWS services.
+- [Docker](https://docs.docker.com/engine/install/): An open platform for developing, shipping, and running applications in containers.
+- [Docker-compose](https://docs.docker.com/compose/install/): A tool for defining and running multi-container Docker applications.
+- [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli): Infrastructure as code tool for building, changing, and versioning infrastructure safely and efficiently.
+- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html): The Amazon Web Services Command Line Interface is a unified tool to manage AWS services.
+
+- Optional [LocalSatck](https://app.localstack.cloud/sign-in)
 
 ## Getting Started
 
@@ -42,6 +44,11 @@ Detailed instructions for each of these steps can be found in the Getting Starte
 ## Architecture
  The architecture of the project is detailed in the [Architecture README](./documentation/Architecture.md). This includes information about the hexagonal architecture pattern used and the project's folder structure.
 ![image](./documentation/Achitecture.png)
+
+
+## Folder Distribution
+
+This [README](./documentation/Folders.md) outlines the structure and organization of the project's directories and files. Each component plays a specific role in the configuration, deployment, and operation of the application. 
 
 
 ## Running the Project
