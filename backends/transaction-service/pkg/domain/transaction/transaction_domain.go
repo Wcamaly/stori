@@ -26,6 +26,8 @@ type TransactionRepository interface {
 type TransactionBalance struct {
 	userId  models.ID
 	balance float64
+	debit   float64
+	credit  float64
 }
 
 type TransactionMovement struct {
@@ -52,6 +54,14 @@ func (u *TransactionBalance) UserId() models.ID {
 
 func (u *TransactionBalance) Balance() float64 {
 	return u.balance
+}
+
+func (u *TransactionBalance) Debit() float64 {
+	return u.debit
+}
+
+func (u *TransactionBalance) Credit() float64 {
+	return u.credit
 }
 
 func NewTransactionMovement(userId models.ID, increment int, decrement int, month time.Month) *TransactionMovement {

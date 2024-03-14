@@ -106,7 +106,6 @@ func HandlerFindBalance(dep *config.Dependencies) http.HandlerFunc {
 	getBalance := transaction.NewGetBalance(dep.TransactionRepository)
 	return func(w http.ResponseWriter, r *http.Request) {
 		res, err := getBalance.Exec(r.Context())
-		println("res: ", res)
 		if err != nil {
 			config.WriteErr(r.Context(), w, err)
 			return

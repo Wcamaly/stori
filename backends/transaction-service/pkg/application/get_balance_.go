@@ -21,6 +21,8 @@ func NewGetBalance(
 type GetBalanceResponse struct {
 	UserID  string  `json:"userId"`
 	Balance float64 `json:"balance"`
+	Credit  float64 `json:"credit"`
+	Debit   float64 `json:"debit"`
 }
 
 func (tr *GetBalance) Exec(ctx context.Context) ([]*GetBalanceResponse, error) {
@@ -32,7 +34,7 @@ func (tr *GetBalance) Exec(ctx context.Context) ([]*GetBalanceResponse, error) {
 
 	response := make([]*GetBalanceResponse, len(balances))
 	for i, balance := range balances {
-		response[i] = &GetBalanceResponse{UserID: balance.UserId().String(), Balance: balance.Balance()}
+		response[i] = &GetBalanceResponse{UserID: balance.UserId().String(), Balance: balance.Balance(), Credit: balance.Credit(), Debit: balance.Debit()}
 	}
 	return response, nil
 }

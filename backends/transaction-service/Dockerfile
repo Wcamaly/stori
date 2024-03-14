@@ -1,13 +1,16 @@
-FROM golang:alpine as builder
+FROM golang:alpine AS build
+RUN apk update && apk add git
+RUN mkdir /go/src/app
+ADD . /go/src/app
+WORKDIR /go/src/app
 
-WORKDIR /app
-COPY . /app
-RUN CGO_ENABLED=0 GOOS=linux GOPROXY=https://proxy.golang.org go build -o app cmd/server/main.go
+RUN go mod tidy
+RUN go build -o /go/src/app/main main.go
 
-FROM alpine:latest
-# mailcap adds mime detection and ca-certificates help with TLS (basic stuff)
-RUN apk --no-cache add ca-certificates mailcap && addgroup -S app && adduser -S app -G app
-USER app
-WORKDIR /app
-COPY --from=builder /app/app .
-ENTRYPOINT ["./app"]
+FROM alpine
+COPY --from=build /go/src/app/main /go/src/app/
+COPY --from=build /go/src/app/.env /go/src/app/
+
+COPY swagger.json .
+EXPOSE 8080
+ENTRYPOINT ["/go/src/app/main"]
