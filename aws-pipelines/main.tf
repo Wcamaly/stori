@@ -147,12 +147,12 @@ module "lambda_functions" {
         USER_SERVICE_URL="http://user-service:8080/api/v1"
         SNS_TOPIC=var.sns_topic
         AWS_REGION=var.region
-        SMTP_HOST="smtp.gmail.com"
-        SMTP_PORT="587"
-        SENDER_EMAIL="walter.heroku@gmail.com"
-        SENDER_PASSWORD="W100lter" #TODO: change this to a secure way
-        AWS_SECRET="test"
-        ACCESS_KEY="test"
+        SMTP_HOST="smtp.gmail.com" #TODO: change this to a variable
+        SMTP_PORT="587" #TODO: change this to a variable
+        SENDER_EMAIL="walter.heroku@gmail.com" #TODO: change this to a variable
+        SENDER_PASSWORD="uzyz cwoy vbtg cdhw" #TODO: change this to a secure way
+        AWS_SECRET="test" #TODO: change this to a variable
+        ACCESS_KEY="test"#TODO: change this to a variable
       }
     }
   }
